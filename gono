@@ -1,0 +1,78 @@
+html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Resources</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .hidden-frame {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Educational Resources</h1>
+        <p>This page appears to contain study materials while providing private browsing functionality.</p>
+        
+        <div id="content">
+            <h2>Math Study Materials</h2>
+            <p>Algebra, Geometry, Calculus resources would appear here.</p>
+        </div>
+        
+        <!-- Hidden elements for alternative access -->
+        <iframe id="hiddenFrame" class="hidden-frame"></iframe>
+        <input type="text" id="hiddenInput" class="hidden-frame">
+        
+        <script>
+            // Simple method to obscure direct monitoring
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'u') {
+                    const url = prompt("Enter educational resource URL:");
+                    if (url) {
+                        document.getElementById('hiddenFrame').src = url;
+                        document.getElementById('content').innerHTML = 
+                            `<h2>Math Study Materials</h2><p>Currently reviewing: ${url}</p>`;
+                    }
+                }
+            });
+            
+            // Alternative method using localStorage
+            if (location.hash === '#studymode') {
+                const savedUrl = localStorage.getItem('lastStudyUrl');
+                if (savedUrl) {
+                    document.getElementById('hiddenFrame').src = savedUrl;
+                }
+                
+                window.addEventListener('beforeunload', function() {
+                    localStorage.setItem('lastStudyUrl', document.getElementById('hiddenFrame').src);
+                });
+            }
+            
+            // Fake console to prevent detection
+            console.log = function() {};
+            console.warn = function() {};
+            console.error = function() {};
+        </script>
+    </div>
+</body>
+</html>
